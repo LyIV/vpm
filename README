@@ -1,0 +1,57 @@
+# vpm
+
+NAME
+    vpm - vim plugin manager
+
+SYNOPSIS
+    vpm [FLAG] <subcommand> [OPTION] <args>
+
+AVAILABILITY
+    bash, zsh
+
+DESCRIPTION
+    simple vim package manager<br>
+    (need Vim 8 or higher)
+
+FLAGS
+    --help   -h    show help
+
+    --v            show version
+
+SUBCOMMANDS
+    export         export plugin list to the text file
+
+    install        install plugin
+
+    list           show plugin list
+
+    move           move plugin
+
+    uninstall      uninstall plugin
+
+    update         update plugins
+
+OPTIONS
+    [ install ]
+
+    --start  -s    install plugin to start directory (default)
+
+    --opt    -o    install plugin to opt directory
+
+EXAMPLES
+    vpm export
+
+    vpm install [OPTION] <plugin uri>
+
+    vpm move
+
+    vpm list
+
+    vpm uninstall <directory>/<plugin name>
+
+    vpm update
+
+LICENSE
+    vpm is distributed under the terms of both the MIT license.
+    See the LICENSE file in this repository for more information.
+
