@@ -2,7 +2,7 @@
 
 set -eu
 
-plugins_directory="$HOME/.vim/pack/vpm"
+plugins_directory="${HOME}/.vim/pack/vpm"
 version="1.0"
 
 #
@@ -40,7 +40,7 @@ function parse_flags () {
       show_help
       ;;
     -v|--version)
-      echo "$0 - $version"
+      echo "$0 - ${version}"
       ;;
     *)
       echo "parse error (try: vpm --help)"
@@ -71,12 +71,12 @@ function parse_args () {
 function sc_export () {
   current_directory=`pwd`
   
-  for install_directory in `ls $plugins_directory`; do
-    echo "mkdir -p ~/.vim/pack/vpm/$install_directory"
-    for plugin in `ls $plugins_directory/$install_directory`; do
-      cd $plugins_directory/$install_directory/$plugin
+  for install_directory in `ls ${plugins_directory}`; do
+    echo "mkdir -p ~/.vim/pack/vpm/${install_directory}"
+    for plugin in `ls ${plugins_directory}/${install_directory}`; do
+      cd ${plugins_directory}/${install_directory}/${plugin}
       origin_uri=`git remote get-url origin`
-      echo "git clone $origin_uri $plugin"
+      echo "git clone $origin_uri ${plugin}"
     done
     echo ""
   done
@@ -88,9 +88,9 @@ function sc_install () {}
 
 function sc_list () {
   echo "\n[ start ]"
-  ls "$plugins_directory/start"
+  ls "${plugins_directory}/start"
   echo "\n[ opt ]"
-  ls "$plugins_directory/opt"
+  ls "${plugins_directory}/opt"
   echo ""
   echo "- done -"
 }
@@ -105,14 +105,16 @@ function sc_update () {}
 # init
 #
 function init () {
-  if [[ ! -e $plugins_directory ]]; then
-    echo "make install directory: $install_directory"
-    mkdir $install_directory
-    echo "- done -"
-    echo ""
-  fi
+  dist=("start" "opt")
 
-  # todo: mkdir (start, opt)
+  for install_directory in ${dist[@]}; do
+    if [[ ! -e ${plugins_directory}/${install_directory} ]]; then
+      echo "init: create ${plugins_directory}/${install_directory}"
+      mkdir -p ${plugins_directory}/${install_directory}
+      echo "- done -"
+      echo ""
+    fi
+  done
 }
 
 #
