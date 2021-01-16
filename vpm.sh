@@ -68,7 +68,21 @@ function parse_args () {
 #
 # subcommands
 #
-function sc_export () {}
+function sc_export () {
+  current_directory=`pwd`
+  
+  for install_directory in `ls $plugins_directory`; do
+    echo "mkdir -p ~/.vim/pack/vpm/$install_directory"
+    for plugin in `ls $plugins_directory/$install_directory`; do
+      cd $plugins_directory/$install_directory/$plugin
+      origin_uri=`git remote get-url origin`
+      echo "git clone $origin_uri $plugin"
+    done
+    echo ""
+  done
+
+  cd $current_directory
+}
 
 function sc_install () {}
 
