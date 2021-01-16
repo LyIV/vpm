@@ -2,7 +2,7 @@
 
 set -eu
 
-install_directory="$HOME/.vim/pack/vpm"
+plugins_directory="$HOME/.vim/pack/vpm"
 version="1.0"
 
 #
@@ -65,23 +65,40 @@ function parse_args () {
   esac
 }
 
-function export () {}
+#
+# subcommands
+#
+function sc_export () {}
+
 function sc_install () {}
-function sc_list () {}
+
+function sc_list () {
+  echo "\n[ start ]"
+  ls "$plugins_directory/start"
+  echo "\n[ opt ]"
+  ls "$plugins_directory/opt"
+  echo ""
+  echo "- done -"
+}
+
 function sc_move () {}
+
 function sc_uninstall () {}
+
 function sc_update () {}
 
 #
 # init
 #
 function init () {
-  if [[ ! -e $install_directory ]]; then
+  if [[ ! -e $plugins_directory ]]; then
     echo "make install directory: $install_directory"
     mkdir $install_directory
     echo "- done -"
     echo ""
   fi
+
+  # todo: mkdir (start, opt)
 }
 
 #
