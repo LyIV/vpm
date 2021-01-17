@@ -70,7 +70,7 @@ function parse_args () {
 #
 function sc_export () {
   current_directory=`pwd`
-  
+
   for install_directory in `ls ${plugins_directory}`; do
     echo "mkdir -p ~/.vim/pack/vpm/${install_directory}"
     for plugin in `ls ${plugins_directory}/${install_directory}`; do
@@ -99,7 +99,23 @@ function sc_move () {}
 
 function sc_uninstall () {}
 
-function sc_update () {}
+function sc_update () {
+  current_directory=`pwd`
+
+  for install_directory in `ls ${plugins_directory}`; do
+    echo "\n>>> ${install_directory}"
+    for plugin in `ls ${plugins_directory}/${install_directory}`; do
+      echo "\nupdate: ${plugin}"
+      cd ${plugins_directory}/${install_directory}/${plugin}
+      git pull --rebase
+      origin_uri=`git remote get-url origin`
+      echo ""
+    done
+    echo "- done -"
+  done
+
+  cd $current_directory
+}
 
 #
 # init
