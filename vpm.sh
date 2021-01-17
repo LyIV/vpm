@@ -55,7 +55,7 @@ function parse_flags () {
 function parse_args () {
   case $1 in
     "export")    sc_export;;
-    "install")   sc_install;;
+    "install")   sc_install ${@:2};;
     "list")      sc_list;;
     "move")      sc_update;;
     "uninstall") sc_uninstall;;
@@ -84,7 +84,39 @@ function sc_export () {
   cd $current_directory
 }
 
-function sc_install () {}
+function sc_install () {
+  dist="start"
+
+  case $1 in
+    -h|--help)
+      echo ""
+      echo "USAGE"
+      echo "    vpm install [OPTION] <plugin uri> <plugin name>"
+      echo ""
+      echo "OPTIONS"
+      echo "    --start  -s    install plugin to start directory (default)"
+      echo ""
+      echo "    --opt    -o    install plugin to opt directory"
+      ;;
+    -s|--start)
+      shift
+      ;;
+    -o|--opt)
+      dist="opt"
+      shift
+      ;;
+  esac
+
+  if [[ ${1:-UNSET} = UNSET || ${2:-UNSET} ]]; then
+    echo "argument error"
+    exit 1
+  else
+    git clone ${1} ${plugins_directory}/${dist}/$2
+    echo "- done -"
+    echo ""
+  fi
+
+}
 
 function sc_list () {
   echo "\n[ start ]"
