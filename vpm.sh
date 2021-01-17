@@ -57,7 +57,7 @@ function parse_args () {
     "export")    sc_export;;
     "install")   sc_install ${@:2};;
     "list")      sc_list;;
-    "move")      sc_update;;
+    "move")      sc_move ${@:2};;
     "uninstall") sc_uninstall ${@:2};;
     "update")    sc_update;;
 
@@ -126,7 +126,20 @@ function sc_list () {
   echo "- done -"
 }
 
-function sc_move () {}
+function sc_move () {
+  if [[ ${1:-UNSET} = UNSET || ${2:-UNSET} = UNSET ]]; then
+    echo "argument error"
+    exit 1
+  elif [[ $1 = (-h|--help) ]]; then
+    echo ""
+    echo "USAGE"
+    echo "    vpm move <source directory>/<plugin name> <dist directory>/<plugin name>"
+    echo ""
+  else
+    mv ${plugins_directory}/$1 ${plugins_directory}/$2
+    echo "- done -"
+  fi
+}
 
 function sc_uninstall () {
   dist="start"
