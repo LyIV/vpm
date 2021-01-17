@@ -2,7 +2,7 @@
 
 set -eu
 
-plugins_directory="${HOME}/.vim/pack/vpm"
+vpm_root="${HOME}/.vim/pack/vpm"
 version="1.0"
 
 #
@@ -71,10 +71,10 @@ function parse_args () {
 function sc_export () {
   current_directory=`pwd`
 
-  for install_directory in `ls ${plugins_directory}`; do
+  for install_directory in `ls ${vpm_root}`; do
     echo "mkdir -p ~/.vim/pack/vpm/${install_directory}"
-    for plugin in `ls ${plugins_directory}/${install_directory}`; do
-      cd ${plugins_directory}/${install_directory}/${plugin}
+    for plugin in `ls ${vpm_root}/${install_directory}`; do
+      cd ${vpm_root}/${install_directory}/${plugin}
       origin_uri=`git remote get-url origin`
       echo "git clone $origin_uri ${plugin}"
     done
@@ -107,11 +107,11 @@ function sc_install () {
       ;;
   esac
 
-  if [[ ${1:-UNSET} = UNSET || ${2:-UNSET} ]]; then
+  if [[ ${1:-UNSET} = UNSET || ${2:-UNSET} = UNSET ]]; then
     echo "argument error"
     exit 1
   else
-    git clone ${1} ${plugins_directory}/${dist}/$2
+    git clone ${1} ${vpm_root}/${dist}/$2
     echo "- done -"
     echo ""
   fi
@@ -119,9 +119,9 @@ function sc_install () {
 
 function sc_list () {
   echo "\n[ start ]"
-  ls "${plugins_directory}/start"
+  ls "${vpm_root}/start"
   echo "\n[ opt ]"
-  ls "${plugins_directory}/opt"
+  ls "${vpm_root}/opt"
   echo ""
   echo "- done -"
 }
@@ -136,7 +136,7 @@ function sc_move () {
     echo "    vpm move <source directory>/<plugin name> <dist directory>/<plugin name>"
     echo ""
   else
-    mv ${plugins_directory}/$1 ${plugins_directory}/$2
+    mv ${vpm_root}/$1 ${vpm_root}/$2
     echo "- done -"
   fi
 }
@@ -168,7 +168,7 @@ function sc_uninstall () {
     echo "argument error"
     exit 1
   else
-    rm -rfv ${plugins_directory}/${dist}/$1
+    rm -rfv ${vpm_root}/${dist}/$1
     echo "- done -"
     echo ""
   fi
@@ -177,11 +177,11 @@ function sc_uninstall () {
 function sc_update () {
   current_directory=`pwd`
 
-  for install_directory in `ls ${plugins_directory}`; do
+  for install_directory in `ls ${vpm_root}`; do
     echo "\n>>> ${install_directory}"
-    for plugin in `ls ${plugins_directory}/${install_directory}`; do
+    for plugin in `ls ${vpm_root}/${install_directory}`; do
       echo "\nupdate: ${plugin}"
-      cd ${plugins_directory}/${install_directory}/${plugin}
+      cd ${vpm_root}/${install_directory}/${plugin}
       git pull --rebase
       origin_uri=`git remote get-url origin`
       echo ""
@@ -199,9 +199,9 @@ function init () {
   dist=("start" "opt")
 
   for install_directory in ${dist[@]}; do
-    if [[ ! -e ${plugins_directory}/${install_directory} ]]; then
-      echo "init: create ${plugins_directory}/${install_directory}"
-      mkdir -p ${plugins_directory}/${install_directory}
+    if [[ ! -e ${vpm_root}/${install_directory} ]]; then
+      echo "init: create ${vpm_root}/${install_directory}"
+      mkdir -p ${vpm_root}/${install_directory}
       echo "- done -"
       echo ""
     fi
