@@ -49,7 +49,7 @@ EXAMPLES
 
     vpm install [OPTION] <plugin uri>
 
-    vpm move
+    vpm move <source directory>/<plugin name> <dist directory>/<plugin name>
 
     vpm list
 
