@@ -38,6 +38,12 @@ OPTIONS
 
     --opt    -o    install plugin to opt directory
 
+    [ uninstall ]
+
+    --start  -s    uninstall plugin from start directory (default)
+
+    --opt    -o    uninstall plugin from opt directory
+
 EXAMPLES
     vpm export
 
@@ -47,7 +53,7 @@ EXAMPLES
 
     vpm list
 
-    vpm uninstall <directory>/<plugin name>
+    vpm uninstall [OPTION] <plugin name>
 
     vpm update
 

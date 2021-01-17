@@ -58,7 +58,7 @@ function parse_args () {
     "install")   sc_install ${@:2};;
     "list")      sc_list;;
     "move")      sc_update;;
-    "uninstall") sc_uninstall;;
+    "uninstall") sc_uninstall ${@:2};;
     "update")    sc_update;;
 
     *)           parse_flags $@;;
@@ -115,7 +115,6 @@ function sc_install () {
     echo "- done -"
     echo ""
   fi
-
 }
 
 function sc_list () {
@@ -129,7 +128,38 @@ function sc_list () {
 
 function sc_move () {}
 
-function sc_uninstall () {}
+function sc_uninstall () {
+  dist="start"
+
+  case $1 in
+    -h|--help)
+      echo ""
+      echo "USAGE"
+      echo "    vpm uninstall [OPTION] <plugin name>"
+      echo ""
+      echo "OPTIONS"
+      echo "    --start  -s    uninstall plugin from start directory (default)"
+      echo ""
+      echo "    --opt    -o    uninstall plugin from opt directory"
+      ;;
+    -s|--start)
+      shift
+      ;;
+    -o|--opt)
+      dist="opt"
+      shift
+      ;;
+  esac
+
+  if [[ ${1:-UNSET} = UNSET ]]; then
+    echo "argument error"
+    exit 1
+  else
+    rm -rfv ${plugins_directory}/${dist}/$1
+    echo "- done -"
+    echo ""
+  fi
+}
 
 function sc_update () {
   current_directory=`pwd`
