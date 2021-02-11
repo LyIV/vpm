@@ -76,7 +76,7 @@ function sc_export () {
     for plugin in `ls ${vpm_root}/${install_directory}`; do
       cd ${vpm_root}/${install_directory}/${plugin}
       origin_uri=`git remote get-url origin`
-      echo "git clone $origin_uri ${plugin}"
+      echo "git clone ${origin_uri} \$HOME/.vim/pack/vpm/${install_directory}/${plugin}"
     done
     echo ""
   done
